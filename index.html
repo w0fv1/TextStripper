@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML文本提取工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+        }
+        button {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #output {
+            background-color: white;
+            padding: 10px;
+            min-height: 100px;
+            white-space: pre-wrap;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h2>HTML文本提取工具</h2>
+    <textarea id="htmlInput" placeholder="在此粘贴HTML代码..."></textarea>
+    <button onclick="extractText()">提取文本</button>
+    <h3>提取的文本：</h3>
+    <div id="output"></div>
+
+    <script>
+        function extractText() {
+            const htmlInput = document.getElementById("htmlInput").value;
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = htmlInput;
+            
+            // 移除script和style标签的内容
+            const scripts = tempDiv.getElementsByTagName("script");
+            while (scripts.length > 0) {
+                scripts[0].parentNode.removeChild(scripts[0]);
+            }
+            const styles = tempDiv.getElementsByTagName("style");
+            while (styles.length > 0) {
+                styles[0].parentNode.removeChild(styles[0]);
+            }
+            
+            // 提取可见文本
+            const text = tempDiv.textContent || tempDiv.innerText;
+            document.getElementById("output").textContent = text.trim();
+        }
+    </script>
+</body>
+</html>
